@@ -1,0 +1,67 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+    }
+    #intro-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 400px;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 150px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    #intro-title .dot {
+      color: var(--accent);
+    }
+    #intro-bar {
+      position: absolute;
+      left: 510px;
+      top: 600px;
+      width: 900px;
+      height: 14px;
+      background: var(--accent);
+      transform-origin: center;
+    }
+    #intro-subtitle {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 660px;
+      text-align: center;
+      font-size: 44px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="intro"
+    data-width="1920"
+    data-height="1080"
+    data-composition-variables='[{"id":"title","type":"string","label":"Título","default":"Meus vídeos"},{"id":"subtitle","type":"string","label":"Subtítulo","default":"feitos por agentes de IA"}]'
+  >
+    <h1 id="intro-title" class="clip" data-start="0" data-duration="8"><span data-var-text="title">Meus vídeos</span><span class="dot">.</span></h1>
+    <div id="intro-bar" class="clip" data-start="0" data-duration="8"></div>
+    <p id="intro-subtitle" class="clip" data-start="0" data-duration="8" data-var-text="subtitle">feitos por agentes de IA</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Barra laranja corre por baixo do título
+    tl.fromTo("#intro-bar", { scaleX: 0 }, { scaleX: 1, duration: 1, ease: "power4.out" }, 0.3);
+    // Subtítulo entra depois da barra
+    tl.fromTo("#intro-subtitle", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 1.2);
+    // Aproximação lenta para a tela não ficar parada
+    tl.fromTo("#intro-title", { scale: 1 }, { scale: 1.06, duration: 7, ease: "none" }, 0);
+    // Saída: barra se recolhe e tudo some
+    tl.to("#intro-bar", { scaleX: 0, duration: 0.5, ease: "power3.in" }, 7.1);
+    tl.to(["#intro-title", "#intro-subtitle"], { opacity: 0, duration: 0.5, ease: "power2.in" }, 7.3);
+    window.__timelines["intro"] = tl;
+  </script>
+</template>
